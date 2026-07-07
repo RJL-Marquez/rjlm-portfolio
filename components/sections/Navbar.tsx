@@ -23,15 +23,12 @@ export function Navbar() {
         <nav className="flex h-16 items-center justify-between" aria-label="Primary">
           <div className="flex items-center gap-4">
             <span className="font-mono text-lg font-medium tracking-tight text-text-primary">
-              RJLM
+              RENCE JOSEPH MARQUEZ
             </span>
             <span className="hidden h-4 w-px bg-border sm:block" aria-hidden="true" />
             <DataLabel variant="status" className="hidden sm:inline-flex">
               Available for Roles
             </DataLabel>
-            <span className="hidden text-xs text-text-muted md:inline">
-              · DOST-SEI Scholar
-            </span>
           </div>
 
           <div className="hidden items-center gap-8 md:flex">
