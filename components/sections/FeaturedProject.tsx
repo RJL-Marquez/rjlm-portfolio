@@ -21,7 +21,7 @@ const PROJECTS: Project[] = [
     id: "power-amp",
     tabLabel: "Power Amp",
     title: "Audio Power Amplifier",
-    image: "/images/projects/power-amp-schematic.png",
+    image: "/images/projects/power-amp-schematic.jpg",
     description:
       "Designed and simulated a discrete audio power amplifier circuit, covering component selection, gain staging, and thermal considerations — validated through LTSpice simulation before physical construction.",
     skills: ["LTSpice", "Circuit Design", "PCB", "Amplifier"],
@@ -143,7 +143,7 @@ export function FeaturedProject() {
               alt={active.title}
               fill
               sizes="(min-width: 1024px) 40rem, 90vw"
-              className="object-contain p-4"
+              className="object-cover"
             />
           </div>
 
