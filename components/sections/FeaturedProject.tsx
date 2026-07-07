@@ -130,7 +130,7 @@ export function FeaturedProject() {
       <Container>
         <p className="data-label mb-3">04 / Projects</p>
         <h2 className="mb-8 max-w-prose text-2xl font-medium tracking-tight text-text-primary md:text-3xl">
-          Selected work.
+          SELECTED PROJECTS
         </h2>
 
         {/* Pausing on hover keeps the auto-advance from interrupting

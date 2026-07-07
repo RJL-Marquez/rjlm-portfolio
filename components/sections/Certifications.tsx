@@ -27,7 +27,7 @@ export function Certifications() {
       <Container>
         <p className="data-label mb-3">05 / Certifications</p>
         <h2 className="mb-12 max-w-prose text-2xl font-medium tracking-tight text-text-primary md:text-3xl">
-          Verified credentials.
+          VERIFIED CREDENTIALS AND BADGES
         </h2>
 
         <div className="flex flex-wrap justify-center gap-12 sm:gap-16">
