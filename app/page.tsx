@@ -6,11 +6,13 @@ import { Experience } from "@/components/sections/Experience";
 import { FeaturedProject } from "@/components/sections/FeaturedProject";
 import { Certifications } from "@/components/sections/Certifications";
 import { Footer } from "@/components/sections/Footer";
+import { ScrollToTop } from "@/components/ui/ScrollToTop";
 
 export default function Home() {
   return (
     <>
       <Navbar />
+      <ScrollToTop />
       <main className="bg-dot-grid">
         <Hero />
         <About />

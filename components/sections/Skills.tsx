@@ -17,7 +17,7 @@ const SKILL_GROUPS = [
   {
     title: "Programming",
     icon: Code2,
-    items: ["C++", "Python", "MATLAB", "HTML/CSS"],
+    items: ["C++", "Python", "MATLAB", "JavaScript", "HTML", "CSS"],
   },
   {
     title: "Hardware",
@@ -27,7 +27,7 @@ const SKILL_GROUPS = [
   {
     title: "Tools",
     icon: Palette,
-    items: ["Adobe Photoshop", "Canva"],
+    items: ["Adobe Photoshop", "Canva", "Microsoft Excel", "Microsoft Publisher", "Adobe Illustrator"],
   },
 ];
 

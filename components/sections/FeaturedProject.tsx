@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { Panel } from "@/components/ui/Panel";
@@ -88,9 +89,26 @@ const PROJECTS: Project[] = [
   },
 ];
 
+const AUTO_ADVANCE_MS = 18000;
+
 export function FeaturedProject() {
   const [activeId, setActiveId] = useState(PROJECTS[0].id);
+  const [isPaused, setIsPaused] = useState(false);
   const active = PROJECTS.find((p) => p.id === activeId) ?? PROJECTS[0];
+
+  // Auto-advances to the next project tab on a timer. Pauses while the
+  // pointer is over the section (so reading isn't interrupted), and the
+  // timer restarts fresh any time the active tab changes — whether that
+  // change came from this timer or from someone clicking a tab manually.
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setTimeout(() => {
+      const currentIndex = PROJECTS.findIndex((p) => p.id === activeId);
+      const next = PROJECTS[(currentIndex + 1) % PROJECTS.length];
+      setActiveId(next.id);
+    }, AUTO_ADVANCE_MS);
+    return () => clearTimeout(timer);
+  }, [activeId, isPaused]);
 
   return (
     <section
@@ -104,62 +122,77 @@ export function FeaturedProject() {
           Selected work.
         </h2>
 
-        {/* Folder-style tabs — the active tab visually merges into the
-            panel below it (shared border color, no bottom border, and a
-            negative margin on the panel closes the seam between them). */}
-        <div className="flex flex-wrap gap-1" role="tablist" aria-label="Projects">
-          {PROJECTS.map((project) => {
-            const isActive = project.id === activeId;
-            return (
-              <button
-                key={project.id}
-                type="button"
-                role="tab"
-                aria-selected={isActive}
-                aria-controls={`project-panel-${project.id}`}
-                onClick={() => setActiveId(project.id)}
-                className={cn(
-                  "rounded-t-lg border border-b-0 px-4 py-2.5 text-sm font-medium transition-colors duration-200",
-                  isActive
-                    ? "border-border bg-surface text-accent"
-                    : "border-transparent text-text-muted hover:text-text-primary",
-                )}
-              >
-                {project.tabLabel}
-              </button>
-            );
-          })}
-        </div>
+        {/* Pausing on hover keeps the auto-advance from interrupting
+            someone actively reading a project's details. */}
+        <div onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
+          {/* Folder-style tabs — the active tab visually merges into the
+              panel below it (shared border color, no bottom border, and a
+              negative margin on the panel closes the seam between them). */}
+          <div className="flex flex-wrap gap-1" role="tablist" aria-label="Projects">
+            {PROJECTS.map((project) => {
+              const isActive = project.id === activeId;
+              return (
+                <button
+                  key={project.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls={`project-panel-${project.id}`}
+                  onClick={() => setActiveId(project.id)}
+                  className={cn(
+                    "rounded-t-lg border border-b-0 px-4 py-2.5 text-sm font-medium transition-colors duration-200",
+                    isActive
+                      ? "border-border bg-surface text-accent"
+                      : "border-transparent text-text-muted hover:text-text-primary",
+                  )}
+                >
+                  {project.tabLabel}
+                </button>
+              );
+            })}
+          </div>
 
-        <Panel
-          id={`project-panel-${active.id}`}
-          role="tabpanel"
-          className="-mt-px grid gap-8 rounded-tl-none p-6 md:p-8 lg:grid-cols-2 lg:gap-12"
-        >
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-md border border-border bg-bg">
-            <Image
+          <Panel
+            id={`project-panel-${active.id}`}
+            role="tabpanel"
+            className="-mt-px grid gap-8 rounded-tl-none p-6 md:p-8 lg:grid-cols-2 lg:gap-12"
+          >
+            <motion.div
               key={active.image}
-              src={active.image}
-              alt={active.title}
-              fill
-              sizes="(min-width: 1024px) 40rem, 90vw"
-              className="object-cover"
-            />
-          </div>
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="relative aspect-[4/3] w-full overflow-hidden rounded-md border border-border bg-bg"
+            >
+              <Image
+                src={active.image}
+                alt={active.title}
+                fill
+                sizes="(min-width: 1024px) 40rem, 90vw"
+                className="object-cover"
+              />
+            </motion.div>
 
-          <div className="flex flex-col justify-center">
-            <h3 className="text-xl font-medium text-text-primary">{active.title}</h3>
-            <p className="mt-4 text-sm leading-relaxed text-text-muted">{active.description}</p>
+            <motion.div
+              key={active.id}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col justify-center"
+            >
+              <h3 className="text-xl font-medium text-text-primary">{active.title}</h3>
+              <p className="mt-4 text-sm leading-relaxed text-text-muted">{active.description}</p>
 
-            <div className="mt-6 flex flex-wrap gap-2">
-              {active.skills.map((skill) => (
-                <DataLabel key={skill} className="rounded border border-border bg-bg px-2.5 py-1">
-                  {skill}
-                </DataLabel>
-              ))}
-            </div>
-          </div>
-        </Panel>
+              <div className="mt-6 flex flex-wrap gap-2">
+                {active.skills.map((skill) => (
+                  <DataLabel key={skill} className="rounded border border-border bg-bg px-2.5 py-1">
+                    {skill}
+                  </DataLabel>
+                ))}
+              </div>
+            </motion.div>
+          </Panel>
+        </div>
       </Container>
     </section>
   );
