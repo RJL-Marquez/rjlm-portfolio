@@ -1,26 +1,152 @@
 @import "tailwindcss";
 
+/* Dark mode is the default aesthetic; .light on <html> overrides it */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --raw-bg: #0a0a0a;
+  --raw-surface: #171717;
+  --raw-border: #262626;
+  --raw-text-primary: #fafafa;
+  --raw-text-muted: #a3a3a3;
+  /* accent tuned lighter for legibility on dark backgrounds */
+  --raw-accent: #818cf8;
 }
 
+html.light {
+  --raw-bg: #f5f2ec;
+  --raw-surface: #fbf9f5;
+  --raw-border: #e6e0d3;
+  --raw-text-primary: #1a1712;
+  /* darkened from #6b6455 — the original was too close in brightness
+     to the cream background and failed contrast for body text */
+  --raw-text-muted: #524b3d;
+  /* same accent role, but darker — #818cf8 is nearly invisible on white */
+  --raw-accent: #4f46e5;
+}
+
+/* @theme inline lets these Tailwind tokens track the raw CSS variables
+   above at runtime, so bg-bg / text-text-primary / etc. update live
+   when ThemeToggle flips the .light class — no dark: prefixes needed. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--raw-bg);
+  --color-surface: var(--raw-surface);
+  --color-border: var(--raw-border);
+  --color-text-primary: var(--raw-text-primary);
+  --color-text-muted: var(--raw-text-muted);
+  --color-accent: var(--raw-accent);
+
+  --color-primary-50: #eef2ff;
+  --color-primary-100: #e0e7ff;
+  --color-primary-200: #c7d2fe;
+  --color-primary-300: #a5b4fc;
+  --color-primary-400: #818cf8;
+  --color-primary-500: #6366f1;
+  --color-primary-600: #4f46e5;
+  --color-primary-700: #4338ca;
+  --color-primary-800: #3730a3;
+  --color-primary-900: #312e81;
+  --color-primary-950: #1e1b4b;
+  --color-primary: #4f46e5;
+
+  --color-signal-green: #22c55e;
+
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  --spacing-section: 8rem;
+  --spacing-section-sm: 5rem;
+
+  --shadow-glow-primary: 0 0 0 1px rgba(79, 70, 229, 0.4), 0 0 24px rgba(79, 70, 229, 0.35);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-bg text-text-primary font-sans antialiased;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  /* Visible keyboard focus everywhere — WCAG 2.4.7 */
+  :focus-visible {
+    outline: 2px solid #4f46e5;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  ::selection {
+    background-color: #4f46e5;
+    color: #fafafa;
+  }
+}
+
+@layer utilities {
+  .animate-fade-up {
+    animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-pulse-dot {
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  .data-label {
+    @apply font-mono text-xs uppercase tracking-wider text-text-muted;
+  }
+
+  .bg-dot-grid {
+    background-image: radial-gradient(
+      color-mix(in srgb, var(--raw-border) 70%, transparent) 1px,
+      transparent 1px
+    );
+    background-size: 32px 32px;
+    background-position: -16px -16px;
+  }
+
+  /* Soft, non-repeating ambient glow — replaces the old tiled circuit
+     pattern. One large radial fade, no visible seams. */
+  .bg-ambient {
+    background-image: radial-gradient(
+      ellipse 800px 500px at 80% 0%,
+      color-mix(in srgb, var(--color-accent) 10%, transparent),
+      transparent 70%
+    );
+  }
+
+  .glow-primary {
+    box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.4), 0 0 24px rgba(79, 70, 229, 0.35);
+  }
 }
