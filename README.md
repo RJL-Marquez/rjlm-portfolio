@@ -4,6 +4,25 @@ Personal portfolio site for **Rence Joseph L. Marquez** — Electronics Engineer
 
 ---
 
+## Preview
+
+**Hero**
+![Hero section](docs/screenshots/hero.png)
+
+**About**
+![About section](docs/screenshots/about.png)
+
+**Skills**
+![Skills section](docs/screenshots/skills.png)
+
+**Experience**
+![Experience section](docs/screenshots/experience.png)
+
+**Featured Project**
+![Featured Project section](docs/screenshots/featured-project.png)
+
+---
+
 ## 1. Planning & Concept
 
 The site is built around one core idea: **the intersection of hardware and software.** Every visual choice reinforces this —
@@ -71,6 +90,9 @@ rjlm-portfolio/
 │   │   └── badges/
 │   │       ├── ccna-introduction-to-networks.png                  # ← you provide this
 │   │       └── ccna-switching-routing-wireless-essentials.png     # ← you provide this
+│
+├── docs/
+│   └── screenshots/        # Images used in this README's Preview section
 │
 ├── package.json
 ├── tsconfig.json
