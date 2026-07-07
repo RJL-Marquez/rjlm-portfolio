@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Panel } from "@/components/ui/Panel";
 import { DataLabel } from "@/components/ui/DataLabel";
@@ -110,6 +111,16 @@ export function FeaturedProject() {
     return () => clearTimeout(timer);
   }, [activeId, isPaused]);
 
+  const activeIndex = PROJECTS.findIndex((p) => p.id === activeId);
+
+  function goToNext() {
+    setActiveId(PROJECTS[(activeIndex + 1) % PROJECTS.length].id);
+  }
+
+  function goToPrev() {
+    setActiveId(PROJECTS[(activeIndex - 1 + PROJECTS.length) % PROJECTS.length].id);
+  }
+
   return (
     <section
       id="projects"
@@ -125,10 +136,70 @@ export function FeaturedProject() {
         {/* Pausing on hover keeps the auto-advance from interrupting
             someone actively reading a project's details. */}
         <div onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
-          {/* Folder-style tabs — the active tab visually merges into the
-              panel below it (shared border color, no bottom border, and a
-              negative margin on the panel closes the seam between them). */}
-          <div className="flex flex-wrap gap-1" role="tablist" aria-label="Projects">
+          <div className="relative">
+            <Panel
+              id={`project-panel-${active.id}`}
+              role="group"
+              aria-label={`${activeIndex + 1} of ${PROJECTS.length}: ${active.title}`}
+              className="grid gap-8 px-14 py-6 md:px-16 md:py-8 lg:grid-cols-2 lg:gap-12"
+            >
+              <motion.div
+                key={active.image}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="relative aspect-[4/3] w-full overflow-hidden rounded-md border border-border bg-bg"
+              >
+                <Image
+                  src={active.image}
+                  alt={active.title}
+                  fill
+                  sizes="(min-width: 1024px) 40rem, 90vw"
+                  className="object-cover"
+                />
+              </motion.div>
+
+              <motion.div
+                key={active.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col justify-center"
+              >
+                <h3 className="text-xl font-medium text-text-primary">{active.title}</h3>
+                <p className="mt-4 text-sm leading-relaxed text-text-muted">{active.description}</p>
+
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {active.skills.map((skill) => (
+                    <DataLabel key={skill} className="rounded border border-border bg-bg px-2.5 py-1">
+                      {skill}
+                    </DataLabel>
+                  ))}
+                </div>
+              </motion.div>
+            </Panel>
+
+            {/* Transparent arrow controls, overlaid on the panel edges */}
+            <button
+              type="button"
+              onClick={goToPrev}
+              aria-label="Previous project"
+              className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-bg/40 text-text-primary/70 backdrop-blur-sm transition-all duration-200 hover:bg-bg/70 hover:text-accent"
+            >
+              <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              onClick={goToNext}
+              aria-label="Next project"
+              className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-bg/40 text-text-primary/70 backdrop-blur-sm transition-all duration-200 hover:bg-bg/70 hover:text-accent"
+            >
+              <ChevronRight className="h-5 w-5" aria-hidden="true" />
+            </button>
+          </div>
+
+          {/* Dot indicators — click any dot to jump straight to that project */}
+          <div className="mt-6 flex items-center justify-center gap-2" role="tablist" aria-label="Select project">
             {PROJECTS.map((project) => {
               const isActive = project.id === activeId;
               return (
@@ -137,61 +208,16 @@ export function FeaturedProject() {
                   type="button"
                   role="tab"
                   aria-selected={isActive}
-                  aria-controls={`project-panel-${project.id}`}
+                  aria-label={project.title}
                   onClick={() => setActiveId(project.id)}
                   className={cn(
-                    "rounded-t-lg border border-b-0 px-4 py-2.5 text-sm font-medium transition-colors duration-200",
-                    isActive
-                      ? "border-border bg-surface text-accent"
-                      : "border-transparent text-text-muted hover:text-text-primary",
+                    "h-2 rounded-full transition-all duration-300",
+                    isActive ? "w-6 bg-accent" : "w-2 bg-border hover:bg-text-muted",
                   )}
-                >
-                  {project.tabLabel}
-                </button>
+                />
               );
             })}
           </div>
-
-          <Panel
-            id={`project-panel-${active.id}`}
-            role="tabpanel"
-            className="-mt-px grid gap-8 rounded-tl-none p-6 md:p-8 lg:grid-cols-2 lg:gap-12"
-          >
-            <motion.div
-              key={active.image}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="relative aspect-[4/3] w-full overflow-hidden rounded-md border border-border bg-bg"
-            >
-              <Image
-                src={active.image}
-                alt={active.title}
-                fill
-                sizes="(min-width: 1024px) 40rem, 90vw"
-                className="object-cover"
-              />
-            </motion.div>
-
-            <motion.div
-              key={active.id}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col justify-center"
-            >
-              <h3 className="text-xl font-medium text-text-primary">{active.title}</h3>
-              <p className="mt-4 text-sm leading-relaxed text-text-muted">{active.description}</p>
-
-              <div className="mt-6 flex flex-wrap gap-2">
-                {active.skills.map((skill) => (
-                  <DataLabel key={skill} className="rounded border border-border bg-bg px-2.5 py-1">
-                    {skill}
-                  </DataLabel>
-                ))}
-              </div>
-            </motion.div>
-          </Panel>
         </div>
       </Container>
     </section>

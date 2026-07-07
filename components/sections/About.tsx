@@ -7,9 +7,9 @@ export function About() {
       <Container>
         <p className="data-label mb-3">01 / Profile</p>
 
-        <div className="grid gap-8 lg:grid-cols-[14rem_1fr] lg:gap-12">
+        <div className="grid items-start gap-8 lg:grid-cols-[14rem_1fr] lg:gap-12">
           {/* Photo, same instrument-frame language as the rest of the site */}
-          <div className="mx-auto w-full max-w-[14rem] lg:mx-0">
+          <div className="mx-auto w-full max-w-[14rem] lg:mx-0 lg:mt-15">
             <div className="relative overflow-hidden rounded-lg border border-border bg-surface">
               <CornerTicks />
               <div className="relative aspect-[4/5] w-full">
@@ -35,14 +35,19 @@ export function About() {
 
             <blockquote className="mt-6 border-l-2 border-primary-600 pl-6">
               <p className="text-lg leading-relaxed text-text-muted md:text-xl">
-                As a current Electronics Engineering student with a solid background in
-                software development and network configuration, I&apos;d describe myself
-                as introverted — but articulate when it comes to expressing an opinion.
+                As a current Electronics Engineering student, I have focused my academic
+                and personal journey on bridging the gap between hardware and software,
+                building a solid foundation in software development and network configuration.
+                Professionally, I would describe myself as naturally introverted—a trait that
+                makes me a keen observer and a deliberate thinker. However, I am highly articulate
+                and confident when it comes to expressing a well-reasoned opinion or advocating
+                for a solution.
               </p>
               <p className="mt-4 text-lg leading-relaxed text-text-muted md:text-xl">
-                With the experience and skills I&apos;ve built so far, I aim to contribute
-                effectively wherever I&apos;m placed, and I always welcome criticism as a
-                way to grow, both personally and professionally.
+                Driven by the hands-on experience and technical skills I&apos;ve built so far, my goal
+                is to adapt quickly and contribute effectively to any team I join. I actively welcome
+                constructive criticism and diverse perspectives, viewing them as essential tools to fuel
+                my continuous growth, both personally and professionally.
               </p>
             </blockquote>
           </div>

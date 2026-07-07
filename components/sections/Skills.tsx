@@ -43,7 +43,7 @@ export function Skills() {
       <Container>
         <p className="data-label mb-3">02 / Technical Skills</p>
         <h2 className="mb-12 max-w-prose text-2xl font-medium tracking-tight text-text-primary md:text-3xl">
-          A working knowledge of both the circuit and the code.
+          A WORKING KNOWLEDGE OF BOTH CIRCUITS AND CODES
         </h2>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
