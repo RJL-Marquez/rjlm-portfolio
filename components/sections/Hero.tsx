@@ -96,6 +96,10 @@ export function Hero() {
  * (round linejoin softens the corners) and terminate in ringed nodes.
  * No border, no panel — it's meant to sit directly in the layout and
  * fade at the edges rather than read as a bounded UI element.
+ *
+ * Coordinates are laid out as a non-crossing "staircase": each line's
+ * bend point steps further right, and its rise stays entirely above the
+ * line before it, so none of the traces intersect.
  */
 function CircuitArt() {
   const pathTransition = { duration: 1.6, ease: [0.16, 1, 0.3, 1] as const };
