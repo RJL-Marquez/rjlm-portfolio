@@ -30,7 +30,7 @@ export function About() {
 
           <div>
             <h2 className="text-2xl font-medium tracking-tight text-text-primary md:text-3xl">
-              How I work.
+              About Me
             </h2>
 
             <blockquote className="mt-6 border-l-2 border-primary-600 pl-6">

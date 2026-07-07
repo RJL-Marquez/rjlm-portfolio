@@ -33,7 +33,7 @@ export function Hero() {
           className="grid items-start gap-12 py-12 md:py-16 lg:grid-cols-2 lg:gap-8"
         >
           <div>
-            <motion.p variants={item} className="mb-4 font-mono text-sm uppercase tracking-widest text-text-primary/80 md:text-base">
+            <motion.p variants={item} className="mb-4 font-mono text-base uppercase tracking-widest text-text-primary/80 md:text-lg">
               Rence Joseph L. Marquez
             </motion.p>
 
