@@ -1,6 +1,8 @@
-# RJLM Portfolio
+# Rence's Portfolio
 
 Personal portfolio site for **Rence Joseph L. Marquez** — Electronics Engineering student, systems engineer, and software developer. Built with Next.js (App Router), Tailwind CSS v4, and Framer Motion.
+
+link: https://rjlm-portfolio.vercel.app/
 
 ---
 
